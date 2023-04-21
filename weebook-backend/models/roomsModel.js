@@ -1,6 +1,7 @@
-import { Schema, model } from 'mongoose';
+import mongoose, { Schema, model } from 'mongoose';
 
 const reservationSchema = new Schema({
+    user_id: mongoose.Types.ObjectId,
     guest: { 
         name: { type: String, required: true }, 
         phone: { type: String, required: true },
@@ -30,6 +31,7 @@ const roomSchema = new Schema({
             type: [Number],
             required: true
         }
+
     },
     pictures: [{pictureName: String}],
     reservations: [reservationSchema]
