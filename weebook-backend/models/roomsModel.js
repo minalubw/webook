@@ -18,6 +18,7 @@ const reservationSchema = new Schema({
 const roomSchema = new Schema({
     type: { type: String, required: true },
     price_per_day: { type: String, required: true },
+    available: Boolean,
     hotel: { type: String, required: true },
     location: {
         type: {
