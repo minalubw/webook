@@ -3,8 +3,8 @@ import { getAllReservations, addNewReservation, getOneReservationById, updateRes
 
 const router = Router({mergeParams:true});
 
-router.get('', getAllReservations);
-router.post('', addNewReservation);
+router.get('/', getAllReservations);
+router.post('/', addNewReservation);
 router.get('/:reserve_id', getOneReservationById);
 router.patch('/:reserve_id', updateReservationById);
 router.delete('/:reserve_id', deleteReservationById);

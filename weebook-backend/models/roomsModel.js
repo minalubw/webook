@@ -40,4 +40,4 @@ const roomSchema = new Schema({
 
 roomSchema.index({ location: '2d' });
 
-export default model('User', userSchema);
+export default model('Room', roomSchema);

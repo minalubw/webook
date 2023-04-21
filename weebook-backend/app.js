@@ -8,6 +8,7 @@ import { createWriteStream } from 'fs';
 import { join } from 'path';
 import usersRouter from './routers/usersRouter.js';
 import roomsRouter from './routers/roomsRouter.js'
+import { checkAuth } from './middlewares/authChecker.js';
 
 
 const app = express();
@@ -31,7 +32,7 @@ app.use(morgan('combined', { stream: accessLogStream }));
 app.use(json());
 
 app.use('/users', usersRouter);
-app.use('/rooms', roomsRouter);
+app.use('/rooms', checkAuth, roomsRouter);
 
 
 app.all('*', (req, res, next) => {
@@ -45,5 +46,5 @@ app.use((error, req, res, next) => {
 
 
 app.listen(process.env.PORT, ()=>{
-    console.log("listening on 3000");
+    console.log("Listening on 3000");
 })

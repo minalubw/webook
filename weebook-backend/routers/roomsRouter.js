@@ -1,6 +1,7 @@
 import {Router} from 'express';
 import { checkRole } from '../middlewares/checkRole.js';
-import { addNewRoom, deleteRoomById, getAllRooms, getOneRoomById, updateRoomById } from '../controllers/roomsControllers';
+import { addNewRoom, deleteRoomById, getAllRooms, getOneRoomById, updateRoomById } from '../controllers/roomsController.js';
+import reservationRouter from './reservationsRouter.js';
 
 const router = Router();
 
@@ -10,7 +11,7 @@ router.post('/', checkRole, addNewRoom);
 router.patch('/:room_id', checkRole, updateRoomById);
 router.delete('/:room_id', checkRole, deleteRoomById);
 
-router.use('/:room_id/resrevations', );
-router.use('/:room_id/pictures', );
+router.use('/:room_id/resrevations', reservationRouter);
+// router.use('/:room_id/pictures', );
 
 export default router;
