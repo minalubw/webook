@@ -1,6 +1,7 @@
-import { Schema, model } from 'mongoose';
+import mongoose, { Schema, model } from 'mongoose';
 
 const reservationSchema = new Schema({
+    user_id: mongoose.Types.ObjectId,
     guest: { 
         name: { type: String, required: true }, 
         phone: { type: String, required: true },
@@ -18,6 +19,7 @@ const reservationSchema = new Schema({
 const roomSchema = new Schema({
     type: { type: String, required: true },
     price_per_day: { type: String, required: true },
+    available: Boolean,
     hotel: { type: String, required: true },
     location: {
         type: {
