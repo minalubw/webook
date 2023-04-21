@@ -6,6 +6,8 @@ import dotenv from 'dotenv';
 import * as url from 'url';
 import { createWriteStream } from 'fs';
 import { join } from 'path';
+import usersRouter from './routers/usersRouter.js';
+import roomsRouter from './routers/roomsRouter.js'
 
 
 const app = express();
@@ -27,6 +29,9 @@ app.disable('x-powered-by');
 app.use(cors());
 app.use(morgan('combined', { stream: accessLogStream }));
 app.use(json());
+
+app.use('/users', usersRouter);
+app.use('/rooms', roomsRouter);
 
 
 app.all('*', (req, res, next) => {
