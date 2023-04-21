@@ -9,7 +9,7 @@ export async function checkAuth(req, res, next) {
         const user = await User.findOne({ email: decoded.email });
 
         if (!user) {
-            throw new Error("Unauthorized");
+            res.status(process.env.UNAUTHORIZED).json({ error: 'Invalid token'});
         }
         req.user = user;
         next();

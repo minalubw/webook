@@ -12,14 +12,14 @@ const app = express();
 dotenv.config();
 
 
-async ()=>{
+(async ()=>{
     try {
         await mongoose.connect(process.env.WEEBOOKDB_URL);
         console.log('Connected to WeeBookDB');
     } catch (error) {
         console.log('Cannot connect to DB!');
     }
-}
+})();
 const accessLogStream = createWriteStream(join(url.fileURLToPath(new URL('.', import.meta.url)), 'access.log'), { flags: 'a' })
 app.disable('x-powered-by');
 

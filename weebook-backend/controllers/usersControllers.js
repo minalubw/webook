@@ -8,7 +8,7 @@ export const secretKey = crypto.randomBytes(64).toString('hex');
 export async function signup(req, res, next) {
     const {name, email, password} = req.body;
     try {
-        const userExists = await User.findOne({email: email});
+        const userExists = await User.findOne({email});
         if(userExists){
            return next(new Error("User already exist!")); 
         }
