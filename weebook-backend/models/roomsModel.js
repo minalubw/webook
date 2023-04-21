@@ -31,7 +31,6 @@ const roomSchema = new Schema({
             type: [Number],
             required: true
         }
-
     },
     pictures: [{pictureName: String}],
     reservations: [reservationSchema]
