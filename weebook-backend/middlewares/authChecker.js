@@ -1,17 +1,21 @@
 import Jwt from "jsonwebtoken";
-import User from '../models/usersModel.js';
 
 export async function checkAuth(req, res, next) {
     try {
-        const token = req.headers.authorization.split(' ')[1];
-        const decoded = Jwt.verify(token,  process.env.SECRET_KEY);
-        const user = await User.findOne({ email: decoded.email });
-
-        if (!user) {
-            res.status(process.env.UNAUTHORIZED).json({ error: 'Invalid token'});
+        const header = req.headers['authorization'];
+        const token = header.split(' ')[1];
+        if (token) {
+            const decoded = Jwt.verify(token, process.env.SECRET_KEY);
+            if(decoded){
+                req.token = {...decoded._doc, password: ''};
+                return next();
+            }else{
+                return next(new Error('Invalid token'));
+            }
         }
-        req.user = user;
-        next();
+        else{
+           return next(new Error("Token not found"));
+        }
     } catch (e) {
         return next(e);
     }

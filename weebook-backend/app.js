@@ -10,9 +10,9 @@ import usersRouter from './routers/usersRouter.js';
 import roomsRouter from './routers/roomsRouter.js'
 import { checkAuth } from './middlewares/authChecker.js';
 
-
-const app = express();
 dotenv.config();
+const app = express();
+
 
 
 (async ()=>{
