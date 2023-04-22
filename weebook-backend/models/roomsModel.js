@@ -15,7 +15,9 @@ const reservationSchema = new Schema({
     checkOutDate: {
         type: Date,
         required: true
-    }
+    }, 
+    hotel_name: String,
+    room_type: String
 });
 
 const roomSchema = new Schema({

@@ -14,7 +14,6 @@ userSchema.pre('save', async function (next) {
     if (!user.isModified('password')) {
       return next();
     }
-  
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(user.password, salt);
     user.password = hashedPassword;
