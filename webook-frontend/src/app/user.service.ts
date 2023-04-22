@@ -1,4 +1,6 @@
-import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http'
+import { Injectable, inject } from '@angular/core';
+import { environment } from 'src/environments/environment.development';
 
 @Injectable({
   providedIn: 'root'
@@ -6,5 +8,23 @@ import { Injectable } from '@angular/core';
 export class UserService {
   
 
-  constructor() { }
+  private http = inject(HttpClient);
+
+signin(data: IUser) {
+
+  return this.http.post<{success: true, data: any}>(environment.HTTP_SERVER + '/users/sign', data)
+
+ }
+
+signup(user: IUser) {
+
+ }
+  
+}
+
+export interface IUser{
+  _id: string,
+  name: string,
+  email: string,
+  password: string
 }
