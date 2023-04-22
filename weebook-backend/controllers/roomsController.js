@@ -10,6 +10,7 @@ export async function addNewRoom(req, res, next) {
     }
 }
 
+
 export async function getAllRooms(req, res, next) {
     try {
         const result = await Room.find({});

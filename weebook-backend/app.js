@@ -9,6 +9,7 @@ import { join } from 'path';
 import usersRouter from './routers/usersRouter.js';
 import roomsRouter from './routers/roomsRouter.js'
 import { checkAuth } from './middlewares/authChecker.js';
+import { getAllReservationsForAUser } from './controllers/reservationsController.js';
 
 dotenv.config();
 const app = express();
@@ -31,6 +32,7 @@ app.use(cors());
 app.use(morgan('combined', { stream: accessLogStream }));
 app.use(json());
 
+app.get('/reservations', checkAuth, getAllReservationsForAUser);
 app.use('/users', usersRouter);
 app.use('/rooms', checkAuth, roomsRouter);
 
