@@ -17,3 +17,5 @@
 ::1 - - [21/Apr/2023:22:26:27 +0000] "POST /users/signup HTTP/1.1" 200 1025 "-" "PostmanRuntime/7.32.2"
 ::1 - - [21/Apr/2023:22:27:45 +0000] "POST /users/signup HTTP/1.1" 200 1025 "-" "PostmanRuntime/7.32.2"
 ::1 - - [21/Apr/2023:22:32:42 +0000] "POST /users/signup HTTP/1.1" 200 1025 "-" "PostmanRuntime/7.32.2"
+::1 - - [21/Apr/2023:22:41:42 +0000] "POST /users/signup HTTP/1.1" 200 1027 "-" "PostmanRuntime/7.32.2"
+::1 - - [21/Apr/2023:22:45:38 +0000] "POST /users/signup HTTP/1.1" 200 993 "-" "PostmanRuntime/7.32.2"
