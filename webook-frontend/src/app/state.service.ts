@@ -8,9 +8,15 @@ export class StateService {
 
   private _state = new BehaviorSubject<IState>(initial_state);
 
+  getState(){
+    return this._state.asObservable();
+  }
+  setState(new_state: IState) {
+    this._state.next(new_state);
+    return this._state.value;
+  }
 
-
-  constructor() { }
+  
 }
 
 export interface IState{

@@ -1,4 +1,8 @@
-<h1> Welcome to WeeBook </h1>
-<button>Sign In</button>
-<button>Sign Out</button>
-<router-outlet></router-outlet>
+<h1>Welcome to WeeBook, {{ state.name }}</h1>
+<button *ngIf="state._id; else showsignbuttons" (click)="signOut()">Sign Out</button>
+<ng-template #showsignbuttons>
+  <button (click) = "goToSignUp()">Sign Up</button>
+  <button (click) = "goToSignIn()">Sign In</button>
+</ng-template>
+
+<router-outlet/>
