@@ -17,8 +17,7 @@ export class StateService {
     return this._state.value;
   }
 
-
-  constructor() { }
+  
 }
 
 export interface IState{
