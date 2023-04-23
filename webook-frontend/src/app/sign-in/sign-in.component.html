@@ -1,1 +1,5 @@
-<p>sign-in works!</p>
+<form [formGroup]="mySignInForm" (ngSubmit)="signin()">
+  <input placeholder="email" formControlName="email" />
+  <input placeholder="password" type="password" formControlName="password" />
+  <button type="submit" [disabled]="!mySignInForm.valid">Sign in</button>
+</form>
