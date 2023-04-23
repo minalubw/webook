@@ -12,6 +12,10 @@ import { BookRoomComponent } from './book-room/book-room.component';
 import { RouterModule } from '@angular/router';
 import { ReactiveFormsModule } from '@angular/forms';
 import { SignUpComponent } from './sign-up/sign-up.component';
+import { ToastrModule } from 'ngx-toastr';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
+
 
 @NgModule({
   declarations: [
@@ -27,13 +31,16 @@ import { SignUpComponent } from './sign-up/sign-up.component';
   imports: [
     BrowserModule,
     HttpClientModule,
-    RouterModule, forRoot([
+    RouterModule.forRoot([
       { path: '', pathMatch: 'full', redirectTo: 'signin'}, 
       { path: 'signin', component: SignInComponent}, 
+      { path: 'user', component: UserHomeComponent},
       { path: 'signup', component: SignUpComponent}, 
       { path: '**', redirectTo: 'signin'}, 
     ]),
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    ToastrModule.forRoot(),
+    BrowserAnimationsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
