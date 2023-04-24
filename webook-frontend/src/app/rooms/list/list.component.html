@@ -1,0 +1,9 @@
+<button (click)="goToReservations()"> My Reservations </button>
+<h2>Nearby rooms around you...</h2>
+<div *ngFor="let room of rooms">
+    <!-- <img [src]="'http://localhost:3000/rooms/' + room._id + '/pictures/' +room.pictures[0].pictureName" alt="Room picture"><br> -->
+    <!-- <p>{{room.pictures[0].pictureName}}</p> -->
+    <a [routerLink]="['/rooms', room._id]">{{ room.hotel_name }}</a>
+    <p>Type: {{ room.type }}</p>
+    <p>Price per day: {{ room.price_per_day }}</p>
+</div>

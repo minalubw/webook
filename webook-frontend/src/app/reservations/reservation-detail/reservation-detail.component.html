@@ -1,0 +1,29 @@
+<p>reservation-detail works!</p>
+<form *ngIf="!createdReservation._id; else showResForm" [formGroup]="reservationForm" (ngSubmit)="bookNow()">
+    <label for="guest_name">Guest Name</label><br>
+    <input type="text"  formControlName="guest_name"><br>
+
+    <label for="guest_phone">Guest Phone</label><br>
+    <input type="text" formControlName="guest_phone"><br>
+
+    <label for="checkInDate">Check-In Date</label><br>
+    <input type="date"  formControlName="checkInDate"><br>
+
+    <label for="checkOutDate">Check-Out Date</label><br>
+    <input type="date"  formControlName="checkOutDate"><br>
+
+    <button type="submit" [disabled]="reservationForm.invalid">Submit</button>
+</form>    
+<ng-template #showResForm>
+    <div >
+        <h2>Here are your reservation details: </h2>
+        <p>Guest name: {{createdReservation.guest.name}}</p>
+        <p>Guest phone: {{createdReservation.guest.phone}}</p>
+        <p>Check-In Date: {{createdReservation.checkInDate}}</p>
+        <p>Check-Out Date: {{createdReservation.checkOutDate}}</p>
+    </div>
+</ng-template>
+
+
+
+<button (click)="goBackToList()">See More Options</button>

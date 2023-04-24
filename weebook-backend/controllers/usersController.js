@@ -1,6 +1,6 @@
 import User from '../models/usersModel.js';
 import bcrypt from 'bcrypt';
-import Jwt from 'jsonwebtoken';
+import jwt from 'jsonwebtoken';
 
 
 export async function signup(req, res, next) {
@@ -11,7 +11,7 @@ export async function signup(req, res, next) {
            return next(new Error("User already exist!")); 
         }
         const user = await User.create({name, email, password, role});
-        const token = Jwt.sign({...user, password: '' }, process.env.SECRET_KEY);
+        const token = jwt.sign({...user, password: '' }, process.env.SECRET_KEY);
         return res.json({ success: true, data: token });
     } catch (error) {
         next(error);
@@ -31,7 +31,7 @@ export async function login(req, res, next) {
             return next(new Error("Username or password is not valid!"));
         }
         
-        const token = Jwt.sign({...user, password: '' },  process.env.SECRET_KEY);
+        const token = jwt.sign({...user, password: '' },  process.env.SECRET_KEY);
         return res.json({ success: true, data: token });
     } catch (error) {
         return next(error);
