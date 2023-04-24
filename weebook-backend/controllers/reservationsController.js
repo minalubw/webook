@@ -14,8 +14,33 @@ export async function getAllReservations(req, res, next) {
 export async function updateReservationForUser(req, res, next){
     const {reserve_id} = req.params;
     const updatedReservation = req.body;
-    console.log(updatedReservation);
+    const {checkInDate, checkOutDate} = req.body;
+
     try {
+        const room = await Room.findById(updatedReservation.room_id);
+        if (!room) {
+            return next(new Error('Room not found'));
+        }
+
+        const conflictingReservations = room.reservations.filter((reservation) => {
+            const existingCheckInDate = new Date(reservation.checkInDate);
+            const existingCheckOutDate = new Date(reservation.checkOutDate);
+            const requestedCheckInDate = new Date(checkInDate);
+            const requestedCheckOutDate = new Date(checkOutDate);
+
+            return (
+                (requestedCheckInDate >= existingCheckInDate && requestedCheckInDate < existingCheckOutDate) ||
+                (requestedCheckOutDate > existingCheckInDate && requestedCheckOutDate <= existingCheckOutDate) ||
+                (requestedCheckInDate <= existingCheckInDate && requestedCheckOutDate >= existingCheckOutDate)
+            );
+        });
+        console.log(conflictingReservations);
+        if (conflictingReservations.length > 1) {
+            return res.status(400).json({ error: 'The room is not available for the requested dates' });
+        }
+        if(conflictingReservations.length == 1 && conflictingReservations[0]._id != reserve_id){
+            return res.status(400).json({ error: 'The room is not available for the requested dates' });
+        }
         const result = await Room.updateOne({'reservations._id': reserve_id},
           {$set: {'reservations.$.guest.name': updatedReservation.guest.name,
                   'reservations.$.guest.phone': updatedReservation.guest.phone,

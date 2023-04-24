@@ -12,10 +12,12 @@ import { Subscription } from 'rxjs';
 })
 export class UpdateReservationComponent implements OnInit{
   reservationService = inject(ReservationService);
-  activedRouter = inject(ActivatedRoute);
+  activedRoute = inject(ActivatedRoute);
   router = inject(Router);
+  oldReservation!: IReservation;
   reservationId!: string;
   reservationLoaded!: boolean;
+
   subscription!: Subscription;
   notification = inject(ToastrService);
   updatedReservation: IReservation = initial_reservation;
@@ -31,13 +33,13 @@ export class UpdateReservationComponent implements OnInit{
   
 
   ngOnInit(): void {
-    this.reservationId = this.activedRouter.snapshot.params['reservation_id'];
+    this.reservationId = this.activedRoute.snapshot.params['reservation_id'];
     this.getReservation(this.reservationId);
   }
 
   getReservation(id: string){
-    this.subscription = this.reservationService.getOneReservationForUser(this.reservationId).subscribe((res: any)=>{
-       this.activateForm(res.data)
+    this.subscription = this.reservationService.getOneReservationForUser(this.reservationId).subscribe((res: any)=>{ 
+      this.activateForm(res.data);
     });
     
   }
@@ -50,6 +52,7 @@ export class UpdateReservationComponent implements OnInit{
         checkOutDate: reservation.checkOutDate.toString().slice(0, 10)
     });
     this.reservationLoaded = true;
+    this.oldReservation = reservation;
   }
  
   updateNow() {
@@ -61,6 +64,7 @@ export class UpdateReservationComponent implements OnInit{
       },
       checkInDate: formValue.checkInDate,
       checkOutDate: formValue.checkOutDate,
+      room_id: this.oldReservation.room_id
     };
     this.reservationService
       .updateReservation(this.reservationId, updated)
