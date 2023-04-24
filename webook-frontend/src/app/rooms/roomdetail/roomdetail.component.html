@@ -1,4 +1,5 @@
 <div *ngIf="room">
+    <img *ngIf="room.pictures.length"  src="http://localhost:3000/rooms/{{room._id}}/pictures/{{room.pictures[0].pictureName}}" width="250" alt="Room picture"><br>
     <p>Room type: {{room.type}}</p>
     <p>{{room.hotel_name}}</p>
     <p>Price for one day: {{room.price_per_day}}</p>

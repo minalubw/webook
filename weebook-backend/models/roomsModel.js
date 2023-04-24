@@ -1,6 +1,7 @@
 import mongoose, { Mongoose, Schema, model } from 'mongoose';
 
 const reservationSchema = new Schema({
+    room_id: String,
     user_id: String,
     user_name: String,
     user_email: String,
