@@ -17,6 +17,13 @@ export class StateService {
     return this._state.value;
   }
 
+  isLoggedIn(){
+    return this._state.value._id ? true: false;
+  }
+
+  getToken(){
+    return this._state.value.jwt || '';
+  }
   
 }
 

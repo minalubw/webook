@@ -9,7 +9,7 @@ export class UserService {
   private http = inject(HttpClient);
 
   signin(data: IUser) {
-    return this.http.post<{ success: true; data: any }>(environment.HTTP_SERVER + '/users/sign', data);
+    return this.http.post<{ success: true; data: any }>(environment.HTTP_SERVER + '/users/login', data);
   }
 
   signup(user: IUser) {
@@ -22,4 +22,12 @@ export interface IUser {
   name: string;
   email: string;
   password: string;
+}
+export interface IPayload{
+  _doc: {
+    _id: string;
+    name: string;
+    email: string;
+    password: string;
+  }
 }

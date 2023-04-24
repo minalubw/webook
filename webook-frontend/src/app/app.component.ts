@@ -6,32 +6,31 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  styleUrls: ['./app.component.css'],
 })
 export class AppComponent {
- state!: IState;
- subscription!: Subscription;
- private stateService = inject(StateService);
- private router = inject(Router);
+  state!: IState;
+  subscription!: Subscription;
+  private stateService = inject(StateService);
+  private router = inject(Router);
 
- constructor(){
-  this.subscription = this.stateService.getState().subscribe(state=>{
-    this.state = state;
-  });
- }
+  constructor() {
+    this.subscription = this.stateService.getState().subscribe((state) => {
+      this.state = state;
+    });
+  }
 
- signOut(){
-  this.stateService.setState(initial_state);
-  this.router.navigate(['', 'signin'])
-}
+  goToSignIn() {
+    this.router.navigate(['', 'signin']);
+  }
 
-goToSignIn(){
-  this.router.navigate(['', 'signin']);
-}
+  goToSignUp() {
+    this.router.navigate(['', 'signup']);
+  }
 
-goToSignUp(){
-  
-  this.router.navigate(['', 'signup'])
-}
-
+  signOut() {
+    this.stateService.setState(initial_state);
+    localStorage.clear();
+    this.router.navigate(['', 'signin']);
+  }
 }
