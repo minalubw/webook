@@ -47,7 +47,7 @@ export class SignInComponent implements OnDestroy {
           this.router.navigate(['', 'rooms']);
         }
       }, (err=>{
-        this.notification.success(err.error.error);
+        this.notification.error(err.error.error);
       })
     )
   }

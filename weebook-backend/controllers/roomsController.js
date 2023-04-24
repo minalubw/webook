@@ -11,7 +11,6 @@ export async function addNewRoom(req, res, next) {
 }
  export async function getNearByRooms(req, res, next){
     const { location } = req.body;
-    console.log(location);
     try {
         const result = await Room.find({location: {$near: location}});
         res.json({success: true, data: result});
