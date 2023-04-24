@@ -1,0 +1,14 @@
+<header>
+  <h1>WeBook.Com</h1>
+  <h2>Welcome {{ state.name }}</h2>
+  <button *ngIf="state._id; else showsignbuttons" (click)="signOut()">
+    Sign Out
+  </button>
+  <ng-template #showsignbuttons>
+    <button (click)="goToSignUp()">Sign Up</button>
+    <button (click)="goToSignIn()">Sign In</button>
+  </ng-template>
+</header>
+<router-outlet />
+<footer><h1>WeBook.Com</h1></footer>
+
