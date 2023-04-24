@@ -21,6 +21,9 @@ export class ReservationService implements OnDestroy {
     return this.http.post<{success: true, data: any}>(`${environment.HTTP_SERVER}/rooms/${roomId}/reservations`, reservation);
   }
 
+  getAllReservationsForUser(){
+    return this.http.get<{success: true, data: any}>(`${environment.HTTP_SERVER}/rooms/reservations`);
+  }
   ngOnDestroy(): void{
     this.subscription.unsubscribe();
   }
@@ -35,4 +38,6 @@ export interface IReservation{
   };
   checkInDate: Date;
   checkOutDate: Date;
+  hotel_name: string;
+  room_type: string;
 }

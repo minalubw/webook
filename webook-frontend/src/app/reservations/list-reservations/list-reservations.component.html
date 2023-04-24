@@ -1,1 +1,5 @@
-<p>list-reservations works!</p>
+
+<div *ngFor="let reservation of reservations">
+    <a [routerLink]="['/reservations', reservation._id]">{{ reservation.hotel_name }}</a>
+    <p>Room type: {{ reservation.room_type }}</p>
+</div>

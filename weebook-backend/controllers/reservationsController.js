@@ -12,7 +12,7 @@ export async function getAllReservations(req, res, next) {
 }
 
 export async function getAllReservationsForAUser(req, res, next) {
-    console.log('we are here');
+
     try {
         const result = await Room.aggregate([
             { $match: { "reservations.user_id": req.token._id } },
@@ -21,26 +21,15 @@ export async function getAllReservationsForAUser(req, res, next) {
             { $group: { _id: null, reservations: { $push: "$reservations" } } },
             { $project: { _id: 0, reservations: 1 } }
         ]);
-        res.json({ success: true, data: result });
+        console.log(result[0].reservations);
+        res.json({ success: true, data: result[0].reservations});
     } catch (error) {
         next(error);
     }
 }
 
 export async function addNewReservation(req, res, next) {
-    // try {
-    //     const { room_id } = req.params;
-    //     const newreserve = req.body;
-    //     console.log(newreserve);
-    //     const room = await Room.findById(room_id);
-    //     const result = await Room.updateOne({ _id: room_id },
-    //         { $push: { reservations: { ...newreserve,
-    //             hotel_name: room.hotel_name, room_type: room.type,
-    //             user_id: req.token._id, user_name: req.token.name, user_email: req.token.email, } }, $set: {available: "no"} });
-    //     res.json({ success: true, data: result });
-    // } catch (error) {
-    //     next(error);
-    // }
+   
     const { room_id } = req.params;
     const newreserve = req.body;
     const {checkInDate, checkOutDate} = req.body;

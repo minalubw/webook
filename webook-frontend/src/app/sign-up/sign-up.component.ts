@@ -5,6 +5,7 @@ import { StateService } from 'app/state.service';
 import { IPayload, IUser, UserService } from 'app/user.service';
 import { ToastrService } from 'ngx-toastr';
 import jwt_decode from 'jwt-decode';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-sign-up',
@@ -16,6 +17,7 @@ export class SignUpComponent {
   private router = inject(Router);
   private notification = inject(ToastrService);
   private stateService = inject(StateService);
+  private subscription!: Subscription;
 
   mySignUpForm = inject(FormBuilder).nonNullable.group({
     name: ['', Validators.required],
@@ -24,7 +26,7 @@ export class SignUpComponent {
   })
 
   signup(event: Event){
-    this.userService.signup(this.mySignUpForm.value as IUser)
+    this.subscription = this.userService.signup(this.mySignUpForm.value as IUser)
     .subscribe((res)=>{
       if(res.success){
         this.notification.success('Signed up successfully');
@@ -37,7 +39,11 @@ export class SignUpComponent {
         this.router.navigate(['', 'user']);
       }
     }, (error)=>{
-      this.notification.success(error.error.error);
+      this.notification.error(error.error.error);
     })
+  }
+
+  ngOnDestroy(): void{
+    this.subscription.unsubscribe();
   }
 }

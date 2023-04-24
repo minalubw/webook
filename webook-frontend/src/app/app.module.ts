@@ -12,7 +12,6 @@ import { RouterModule } from '@angular/router';
 import { ReactiveFormsModule } from '@angular/forms';
 import { StateService } from './state.service';
 import { AddtokenInterceptor } from './addtoken.interceptor';
-import { AdminPanelComponent } from './admin-panel/admin-panel.component';
 
 function bootstrap(stateService: StateService) {
   return () => {
@@ -29,7 +28,6 @@ function bootstrap(stateService: StateService) {
     SignUpComponent,
     SignInComponent,
     RoomsComponent,
-    AdminPanelComponent,
   ],
   imports: [
     BrowserModule,
