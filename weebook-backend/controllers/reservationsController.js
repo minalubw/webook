@@ -84,7 +84,7 @@ export async function addNewReservation(req, res, next) {
             return res.status(400).json({ error: 'The room is not available for the requested dates' });
         }
         room.reservations.push({
-            ...newreserve, hotel_name: room.hotel_name, room_type: room.type,
+            ...newreserve, room_id: room._id, hotel_name: room.hotel_name, room_type: room.type,
             user_id: req.token._id, user_name: req.token.name, user_email: req.token.email,
         });
 
@@ -146,17 +146,23 @@ async function updateAvailableRooms() {
         let rooms = await Room.find({});
         for (let room of rooms) {
             let reservations = room.reservations;
-            const now = new Date();
+            if(reservations.length === 0){
+                room.available = "yes";
+                await room.save();
+            }
+            else{
+                const now = new Date();
             for (let reservation of reservations) {
                 if (reservation.checkOutDate <= now) {
                     room.available = "yes";
                 }
             }
             await room.save();
+            }
         }
     } catch (error) {
         console.log(error);
     }
 }
 
-setInterval(updateAvailableRooms, 5000);
+setInterval(updateAvailableRooms, 1000);

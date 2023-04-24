@@ -21,8 +21,8 @@ export class AddReservationComponent {
       name: '',
       phone: ''
     },
-    checkInDate: new Date(),
-    checkOutDate: new Date(),
+    checkInDate: '',
+    checkOutDate: '',
     hotel_name: '',
     room_type: ''
   };

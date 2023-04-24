@@ -9,12 +9,13 @@ import { Subscription } from 'rxjs';
 })
 export class ReservationService implements OnDestroy {
   private http = inject(HttpClient);
-  private stateService = inject(StateService);
-  private state!: IState;
+  // private stateService = inject(StateService);
+  // private state!: IState;
+  private reserve = initial_reservation;
   private subscription!: Subscription;
 
   constructor() {
-    this.stateService.getState().subscribe(res=>{this.state = res});
+    // this.stateService.getState().subscribe(res=>{this.state = res});
   }
 
   addNewReservation(roomId: string, reservation: IReservation){
@@ -44,8 +45,22 @@ export interface IReservation{
     name: string;
     phone: string;
   };
-  checkInDate: Date;
-  checkOutDate: Date;
+  checkInDate: string;
+  checkOutDate: string;
   hotel_name: string;
   room_type: string;
+  room_id: string,
+}
+
+export const initial_reservation = {
+  _id: '',
+  guest: {
+    name: '',
+    phone: '',
+  },
+  checkInDate: '',
+  checkOutDate: '',
+  hotel_name: '',
+  room_type: '',
+  room_id: ''
 }
