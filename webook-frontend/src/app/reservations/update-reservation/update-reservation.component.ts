@@ -1,8 +1,8 @@
 import { Component, OnInit, inject } from '@angular/core';
-import { IReservation, ReservationService } from '../reservation.service';
+import { IReservation, ReservationService, initial_reservation } from '../reservation.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -12,26 +12,16 @@ import { Subscription } from 'rxjs';
 })
 export class UpdateReservationComponent implements OnInit{
   reservationService = inject(ReservationService);
-  activedRouter = inject(ActivatedRoute);
+  activedRoute = inject(ActivatedRoute);
   router = inject(Router);
+  oldReservation!: IReservation;
   reservationId!: string;
+  reservationLoaded!: boolean;
+
   subscription!: Subscription;
-  private notification = inject(ToastrService);
-  updatedReservation: IReservation = {
-    _id: '',
-    guest: {
-      name: '',
-      phone: '',
-    },
-    checkInDate: new Date(),
-    checkOutDate: new Date(),
-    hotel_name: '',
-    room_type: '',
-  };
+  notification = inject(ToastrService);
+  updatedReservation: IReservation = initial_reservation;
 
-  beforeUpdate: any
-
-  
 
   reservationForm = inject(FormBuilder).nonNullable.group({
     guest_name: ['', Validators.required],
@@ -43,21 +33,26 @@ export class UpdateReservationComponent implements OnInit{
   
 
   ngOnInit(): void {
-    console.log(this.beforeUpdate);
-    this.reservationId = this.activedRouter.snapshot.params['reservation_id']
-    this.subscription = this.reservationService.getOneReservationForUser(this.reservationId).subscribe((res: any)=>{
-      this.beforeUpdate = res.data;
-    });
-   
+    this.reservationId = this.activedRoute.snapshot.params['reservation_id'];
+    this.getReservation(this.reservationId);
   }
 
-  activateForm(){
-     this.reservationForm.patchValue({
-        guest_name: this.beforeUpdate.guest.name,
-        guest_phone: this.beforeUpdate.guest.phone,
-        checkInDate: this.beforeUpdate.checkInDate.toISOString().slice(0, 10),
-        checkOutDate: this.beforeUpdate.checkOutDate.toISOString().slice(0, 10)
+  getReservation(id: string){
+    this.subscription = this.reservationService.getOneReservationForUser(this.reservationId).subscribe((res: any)=>{ 
+      this.activateForm(res.data);
     });
+    
+  }
+
+  activateForm(reservation: IReservation){
+    this.reservationForm.patchValue({
+        guest_name: reservation.guest.name,
+        guest_phone: reservation.guest.phone,
+        checkInDate: reservation.checkInDate.toString().slice(0, 10),
+        checkOutDate: reservation.checkOutDate.toString().slice(0, 10)
+    });
+    this.reservationLoaded = true;
+    this.oldReservation = reservation;
   }
  
   updateNow() {
@@ -69,6 +64,7 @@ export class UpdateReservationComponent implements OnInit{
       },
       checkInDate: formValue.checkInDate,
       checkOutDate: formValue.checkOutDate,
+      room_id: this.oldReservation.room_id
     };
     this.reservationService
       .updateReservation(this.reservationId, updated)

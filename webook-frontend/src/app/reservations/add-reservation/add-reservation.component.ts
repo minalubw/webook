@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { IReservation, ReservationService } from '../reservation.service';
+import { IReservation, ReservationService, initial_reservation } from '../reservation.service';
 import { ToastrService } from 'ngx-toastr';
 
 @Component({
@@ -15,17 +15,7 @@ export class AddReservationComponent {
   router = inject(Router);
   roomId!: string;
   private notification = inject(ToastrService);
-  createdReservation: IReservation = {
-    _id: '',
-    guest: {
-      name: '',
-      phone: ''
-    },
-    checkInDate: new Date(),
-    checkOutDate: new Date(),
-    hotel_name: '',
-    room_type: ''
-  };
+  createdReservation = initial_reservation
 
   reservationForm = inject(FormBuilder).nonNullable.group({
     guest_name: ['', Validators.required],
