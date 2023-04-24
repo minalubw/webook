@@ -20,10 +20,17 @@ export class ReservationDetailComponent {
 
   ngOnInit(): void{
     this.reservationId = this.activedRouter.snapshot.params['reservation_id'];
-    this.subscription = this.reservationService.getAllReservationsForUser().subscribe(res=>{
-      this.reservation = res.data.filter((reserves: { _id: string; }) => reserves._id == this.reservationId)[0];
+    this.subscription = this.reservationService.getOneReservationForUser(this.reservationId).subscribe(res=>{
+      this.reservation = res.data;
+    });
+  }
 
-    })
+  goToUpdate(){
+    return this.router.navigate(['reservations', 'update', this.reservationId]);
+  }
+
+  getCurrentInfo(){
+    return this.reservation;
   }
 
 }

@@ -1,1 +1,40 @@
-<p>update-reservation works!</p>
+<div *ngIf="beforeUpdate">
+    <h2>You are trying to edit this booking. Do you want to continue ?</h2>
+    <button (click)="activateForm()">Yes</button><button>Cancel Reservation</button>
+    <p>Guest Name: {{ beforeUpdate.guest.name }} 
+    <p>Guest Phone: {{ beforeUpdate.guest.phone }}
+    <p>Check-In Date: {{ beforeUpdate.checkInDate }} 
+    <p>Check-Out Date: {{ beforeUpdate.checkOutDate }} 
+    
+  </div>
+
+
+<form *ngIf="!updatedReservation._id; else showResForm" [formGroup]="reservationForm" (ngSubmit)="updateNow()">
+    <label for="guest_name">Guest Name</label><br>
+    <input type="text" id="guest_name" formControlName="guest_name"><br>
+
+    <label for="guest_phone">Guest Phone</label><br>
+    <input type="text" id="guest_phone" formControlName="guest_phone"><br>
+
+    <label for="checkInDate">Check-In Date</label><br>
+    <input type="date"  formControlName="checkInDate"><br>
+
+    <label for="checkOutDate">Check-Out Date</label><br>
+    <input type="date"  formControlName="checkOutDate"><br>
+
+    <button type="submit" [disabled]="reservationForm.invalid">Submit</button>
+   
+</form>    
+<ng-template #showResForm>
+    <div >
+        <h2>Here are your reservation details: </h2>
+        <p>Guest name: {{updatedReservation.guest.name}}</p>
+        <p>Guest phone: {{updatedReservation.guest.phone}}</p>
+        <p>Check-In Date: {{updatedReservation.checkInDate}}</p>
+        <p>Check-Out Date: {{updatedReservation.checkOutDate}}</p>
+    </div>
+</ng-template>
+
+
+
+<button (click)="goBackToList()">See More Options</button>

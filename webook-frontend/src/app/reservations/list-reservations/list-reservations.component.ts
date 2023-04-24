@@ -20,7 +20,6 @@ export class ListReservationsComponent {
         this.reservations = res.data;
       }
     })
-    console.log(this.reservations);
   }
 
   ngOnDestroy(): void{

@@ -36,7 +36,7 @@ app.use(json());
 
 
 app.use('/users', usersRouter);
-app.use('/rooms', checkAuth, roomsRouter);
+app.use('/rooms', roomsRouter);
 
 
 app.all('*', (req, res, next) => {

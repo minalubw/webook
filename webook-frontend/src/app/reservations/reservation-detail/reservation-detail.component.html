@@ -1,9 +1,9 @@
-<p>Guest Name: {{reservation.guest.name}}    <button>Edit</button> </p> 
-<p>Guest Phone: {{reservation.guest.phone}}    <button>Edit</button> </p> 
-<p>Check-In Date: {{reservation.checkInDate}}  <button>Edit</button>  </p> 
-<p>Check-Out Date: {{reservation.checkOutDate}}  <button>Edit</button> </p> 
-<p>Hotel: {{reservation.hotel_name}}</p> 
-<p>Room Type: {{reservation.room_type}}</p> 
-<button>
-    Cancel Reservation
-</button>
+<div *ngIf="reservation">
+  <p>Guest Name: {{ reservation.guest.name }} 
+  <p>Guest Phone: {{ reservation.guest.phone }}
+  <p>Check-In Date: {{ reservation.checkInDate }} 
+  <p>Check-Out Date: {{ reservation.checkOutDate }} 
+  <p>Hotel: {{ reservation.hotel_name }}</p>
+  <p>Room Type: {{ reservation.room_type }}</p>
+  <button (click)="goToUpdate()">Update Reservation</button><button>Cancel Reservation</button>
+</div>

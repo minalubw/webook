@@ -21,8 +21,16 @@ export class ReservationService implements OnDestroy {
     return this.http.post<{success: true, data: any}>(`${environment.HTTP_SERVER}/rooms/${roomId}/reservations`, reservation);
   }
 
+  updateReservation(reservation_id: string, updated: IReservation){
+    return this.http.put<{success: true, data: any}>(`${environment.HTTP_SERVER}/rooms/reservations/${reservation_id}`, updated)
+  }
+
   getAllReservationsForUser(){
     return this.http.get<{success: true, data: any}>(`${environment.HTTP_SERVER}/rooms/reservations`);
+  }
+  
+  getOneReservationForUser(reserveId: string){
+    return this.http.get<{success: true, data: any}>(`${environment.HTTP_SERVER}/rooms/reservations/${reserveId}`);
   }
   ngOnDestroy(): void{
     this.subscription.unsubscribe();

@@ -11,6 +11,35 @@ export async function getAllReservations(req, res, next) {
     }
 }
 
+export async function updateReservationForUser(req, res, next){
+    const {reserve_id} = req.params;
+    const updatedReservation = req.body;
+    console.log(updatedReservation);
+    try {
+        const result = await Room.updateOne({'reservations._id': reserve_id},
+          {$set: {'reservations.$.guest.name': updatedReservation.guest.name,
+                  'reservations.$.guest.phone': updatedReservation.guest.phone,
+                  'reservations.$.checkInDate': updatedReservation.checkInDate,
+                  'reservations.$.checkOutDate': updatedReservation.checkOutDate
+                }});
+        console.log(result);
+        return res.json({success: true, data: result});
+    } catch (error) {
+        next(error);
+    }
+}
+
+export async function getOneReservationForUser(req, res, next){
+    const { reserve_id } = req.params;
+    try {
+        const result = await Room.findOne({'reservations._id': reserve_id, 'reservations.user_id': req.token._id }, {'reservations.$': 1});
+        res.json({success: true, data: result.reservations[0]});
+    } catch (error) {
+        next(error);
+
+    }
+}
+
 export async function getAllReservationsForAUser(req, res, next) {
 
     try {
@@ -21,7 +50,6 @@ export async function getAllReservationsForAUser(req, res, next) {
             { $group: { _id: null, reservations: { $push: "$reservations" } } },
             { $project: { _id: 0, reservations: 1 } }
         ]);
-        console.log(result[0].reservations);
         res.json({ success: true, data: result[0].reservations});
     } catch (error) {
         next(error);

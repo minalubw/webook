@@ -1,7 +1,7 @@
-
+<div *ngIf="room">
     <p>Room type: {{room.type}}</p>
     <p>{{room.hotel_name}}</p>
     <p>Price for one day: {{room.price_per_day}}</p>
     <p>Available for today: {{room.available}}</p>
     <button (click)="goToAddReservation()">Book Now</button>
-
+</div>
