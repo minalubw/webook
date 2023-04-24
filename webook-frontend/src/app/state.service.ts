@@ -11,11 +11,19 @@ export class StateService {
   getState(){
     return this._state.asObservable();
   }
-  setState(new_state: IState) {
+
+  setState(new_state: IState){
     this._state.next(new_state);
     return this._state.value;
   }
 
+  isLoggedIn(){
+    return this._state.value._id ? true: false;
+  }
+
+  getToken(){
+    return this._state.value.jwt || '';
+  }
   
 }
 
