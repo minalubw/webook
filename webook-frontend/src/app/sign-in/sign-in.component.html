@@ -1,5 +1,5 @@
 <form [formGroup]="mySignInForm" (ngSubmit)="signin()">
-  <input placeholder="email" formControlName="email" />
-  <input placeholder="password" type="password" formControlName="password" />
+  <input placeholder="email" formControlName="email" /><br>
+  <input placeholder="password" type="password" formControlName="password" /><br>
   <button type="submit" [disabled]="!mySignInForm.valid">Sign in</button>
 </form>

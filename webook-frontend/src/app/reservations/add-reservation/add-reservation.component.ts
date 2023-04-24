@@ -22,7 +22,9 @@ export class AddReservationComponent {
       phone: ''
     },
     checkInDate: new Date(),
-    checkOutDate: new Date()
+    checkOutDate: new Date(),
+    hotel_name: '',
+    room_type: ''
   };
 
   reservationForm = inject(FormBuilder).nonNullable.group({

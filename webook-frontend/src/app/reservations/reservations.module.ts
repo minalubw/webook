@@ -22,8 +22,8 @@ import { ReactiveFormsModule } from '@angular/forms';
     RouterModule.forChild([
       {path: '', component: ListReservationsComponent},
       {path: 'add/:room_id', component: AddReservationComponent},
-      {path: 'update/:reserve_id', component: UpdateReservationComponent},
-      {path: ':reserve_id', component: ReservationDetailComponent}
+      {path: 'update/:reservation_id', component: UpdateReservationComponent},
+      {path: ':reservation_id', component: ReservationDetailComponent}
     ])
   ]
 })
