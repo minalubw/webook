@@ -24,6 +24,9 @@ export async function getPictureByName(req, res, next) {
         const { room_id, pictureName } = req.params;
         const room = await Room.findById(room_id)
         const picture = room.pictures.find(picture => picture.pictureName === pictureName);
+        if(!picture){
+            return next(new Error('Picture not found'));
+        }
         createReadStream(join(url.fileURLToPath(new URL('.', import.meta.url)), '../', 'uploads', picture.pictureName)).pipe(res);
     } catch (e) {
         next(e)
