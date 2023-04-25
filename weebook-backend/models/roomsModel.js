@@ -24,7 +24,7 @@ const reservationSchema = new Schema({
 const roomSchema = new Schema({
     type: { type: String, required: true },
     price_per_day: { type: Number, required: true },
-    available: { type: String, enum: ['yes', 'no'], default: 'yes'},
+    available: { type: String, enum: ['YES', 'NO'], default: 'YES'},
     hotel_name: { type: String, required: true },
     location: [Number],
     pictures: [{pictureName: String}],

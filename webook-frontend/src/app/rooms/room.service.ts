@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable, OnDestroy, inject } from '@angular/core';
-import { IState, StateService } from '../state.service';
+import { IState, StateService, initial_state } from '../state.service';
 import { Observable, Subscription } from 'rxjs';
 import { environment } from 'environments/environment.development';
 
@@ -16,6 +16,22 @@ export class RoomService implements OnDestroy{
     this.subscription =  this.stateService.getState().subscribe(res=>{this.state = res});
   }
 
+  updateRoom(roomId: string, updated: IRoom){
+    return this.http.put<{success: true, data: any}>(`${environment.HTTP_SERVER}/rooms/${roomId}`, updated);
+  }
+
+  deleteRoom(roomId: string){
+    return this.http.delete<{success: true, data: any}>(`${environment.HTTP_SERVER}/rooms/${roomId}`);
+  }
+
+  addNewRoom(newRoom: IRoom){
+    return this.http.post<{success: true, data: any}>(`${environment.HTTP_SERVER}/rooms`, newRoom);
+  }
+  addPictureToRoom(file: File, roomId: string){
+    const formData: FormData = new FormData();
+    formData.append('pictureName', file, file.name);
+    return this.http.post<{success: true, data: any}>(`${environment.HTTP_SERVER}/rooms/${roomId}/pictures`, formData);
+  }
   getRoomById(id: any){
     return this.http.get<{success: true, data: any}>(`${environment.HTTP_SERVER}/rooms/${id}`);
   }
@@ -50,4 +66,15 @@ export interface IRoom {
     hotel_name: string;
     room_type: string;
   }[];
+}
+
+export const initial_room = {
+  _id: '',
+  type: '',
+  price_per_day: '',
+  available: '',
+  hotel_name: '',
+  location: [],
+  pictures: [],
+  reservations: []
 }

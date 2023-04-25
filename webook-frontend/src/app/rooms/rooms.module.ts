@@ -5,6 +5,7 @@ import { AddComponent } from './add/add.component';
 import { UpdateComponent } from './update/update.component';
 import { RouterModule } from '@angular/router';
 import { RoomdetailComponent } from './roomdetail/roomdetail.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 
 
@@ -17,6 +18,7 @@ import { RoomdetailComponent } from './roomdetail/roomdetail.component';
   ],
   imports: [
     CommonModule,
+    ReactiveFormsModule,
     RouterModule.forChild([
         {path: '', component: ListComponent},
         {path: 'add', component: AddComponent},

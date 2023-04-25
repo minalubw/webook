@@ -21,6 +21,7 @@ export interface IUser {
   _id: string;
   name: string;
   email: string;
+  role: string;
   password: string;
 }
 export interface IPayload{
@@ -28,6 +29,7 @@ export interface IPayload{
     _id: string;
     name: string;
     email: string;
+    role: string;
     password: string;
   }
 }

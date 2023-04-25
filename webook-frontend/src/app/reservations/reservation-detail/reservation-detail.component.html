@@ -5,5 +5,5 @@
   <p>Check-Out Date: {{ reservation.checkOutDate }} 
   <p>Hotel: {{ reservation.hotel_name }}</p>
   <p>Room Type: {{ reservation.room_type }}</p>
-  <button (click)="goToUpdate()">Update Reservation</button><button>Cancel Reservation</button>
+  <button (click)="goToUpdate()">Update Reservation</button><button (click)="deleteReservation()">Cancel Reservation</button>
 </div>

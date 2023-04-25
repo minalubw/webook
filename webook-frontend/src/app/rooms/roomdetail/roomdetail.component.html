@@ -4,5 +4,12 @@
     <p>{{room.hotel_name}}</p>
     <p>Price for one day: {{room.price_per_day}}</p>
     <p>Available for today: {{room.available}}</p>
-    <button (click)="goToAddReservation()">Book Now</button>
+    <button (click)="goToAddReservation()">Book Now</button><br>
 </div>
+<br>
+<input type="file" (change)="onFileSelection($event)"><br>
+<button (click)="addPicture()">Add Picture</button><br>
+<br>
+<button (click)="gotToRoomUpdate()">Update Room</button> &nbsp; <button (click)="deleteRoom()">Remove Room</button><br>
+<br>
+<a [routerLink]="['/rooms']"> Go Back To Room List</a>
