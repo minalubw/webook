@@ -43,30 +43,17 @@ export async function getOneRoomById(req, res, next) {
 
 export async function updateRoomById(req, res, next) {
     const { room_id } = req.params;
-    const { type, price_per_day, available, hotel_name, location } = req.body;
-    let query = {}; 
-    console.log(available);
+    const { type, price_per_day, hotel_name, location } = req.body;
     try {
-        if (type) {
-            query['type'] = type;
-        } else if (price_per_day) {
-            query['price_per_day'] = price_per_day;
-        } else if (available) {
-            query['available'] = available;
-        } else if (hotel_name) {
-            query['hotel_name'] = hotel_name;
-        } else if (location) {
-            query['location'] = location;
-        }else{
-            return next(new Error("input not correct"));
-        }
-        const result = await Room.updateOne({ _id: room_id }, { $set: query });
+        
+        const result = await Room.updateOne({ _id: room_id }, 
+            { $set: {type: type, price_per_day: price_per_day, hotel_name: hotel_name, location: location}});
         if (!result) {
-            return next(new Error("room doesnt exist"));
+            return next(new Error("Room doesnt exist"));
         }
         res.json({ success: true, data: result });
     } catch (error) {
-
+        next(e);
     }
 }
 

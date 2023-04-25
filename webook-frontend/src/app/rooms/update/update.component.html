@@ -1,1 +1,35 @@
-<p>update works!</p>
+
+<form *ngIf="!updatedRoom.type; else showUpdatedInfo" [formGroup]="updatedRoomForm" (ngSubmit)="updateNow()">
+    <label for="type">Room type: </label><br>
+    <input type="text"  formControlName="type"><br>
+
+    <label for="price_per_day">Price per day: </label><br>
+    <input type="number" formControlName="price_per_day"><br>
+
+    <label for="hotel_name">Hotel name: </label><br>
+    <input type="text"  formControlName="hotel_name"><br>
+
+    <label for="longitude">Location: Longitude</label><br>
+    <input type="number"  formControlName="longitude"><br>
+
+    <label for="latitude">Location: Latitude</label><br>
+    <input type="number"  formControlName="latitude"><br>
+
+    <button type="submit" [disabled]="updatedRoomForm.invalid">Submit</button>
+</form>  
+
+
+<ng-template #showUpdatedInfo>
+    
+        <h2>Here are your updated room details: </h2>
+        <p>Room type: {{updatedRoom.type}}</p>
+        <p>Hotel name: {{updatedRoom.hotel_name}}</p>
+        <p>Price per day: {{updatedRoom.price_per_day}}</p>
+        <p>Available today: {{updatedRoom.available}}</p>
+        <p>Location: {{updatedRoom.location}}</p>
+    
+</ng-template>
+
+
+
+<button (click)="goBackToList()">Back To Room List</button>

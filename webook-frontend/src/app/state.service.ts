@@ -31,7 +31,8 @@ export interface IState{
   _id: string,
   name: string,
   email: string,
+  role: string,
   jwt: string
 }
 
-export const initial_state = { _id: '', name: 'Guest', email: '', jwt: ''}
+export const initial_state = { _id: '', name: 'Guest', email: '', role: '',  jwt: ''}

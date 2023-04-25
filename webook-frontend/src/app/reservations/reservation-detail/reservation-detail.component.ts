@@ -2,6 +2,7 @@ import { Component, inject } from '@angular/core';
 import { IReservation, ReservationService } from '../reservation.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-reservation-detail',
@@ -14,16 +15,31 @@ export class ReservationDetailComponent {
   activedRouter = inject(ActivatedRoute);
   router = inject(Router);
   reservation!: IReservation;
+  notification = inject(ToastrService);
   subscription!: Subscription;
   
 
 
   ngOnInit(): void{
     this.reservationId = this.activedRouter.snapshot.params['reservation_id'];
-    this.subscription = this.reservationService.getAllReservationsForUser().subscribe(res=>{
-      this.reservation = res.data.filter((reserves: { _id: string; }) => reserves._id == this.reservationId)[0];
-
-    })
+    this.subscription = this.reservationService.getOneReservationForUser(this.reservationId).subscribe(res=>{
+      this.reservation = res.data;
+    });
   }
 
+  goToUpdate(){
+    return this.router.navigate(['reservations', 'update', this.reservationId]);
+  }
+
+  deleteReservation(){
+    this.reservationService.deleteReservation(this.reservationId).subscribe((res)=>{
+       if(res.success){
+        this.notification.success('Reservation cancelled successfully');
+        this.router.navigate(['/reservations']);
+       }
+    }, (error)=>{
+      this.notification.error(error.error.error);
+    })
+  
+  }
 }

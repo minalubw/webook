@@ -11,6 +11,71 @@ export async function getAllReservations(req, res, next) {
     }
 }
 
+export async function updateReservationForUser(req, res, next){
+    const {reserve_id} = req.params;
+    const updatedReservation = req.body;
+    const {checkInDate, checkOutDate} = req.body;
+
+    try {
+        const room = await Room.findById(updatedReservation.room_id);
+        if (!room) {
+            return next(new Error('Room not found'));
+        }
+
+        const conflictingReservations = room.reservations.filter((reservation) => {
+            const existingCheckInDate = new Date(reservation.checkInDate);
+            const existingCheckOutDate = new Date(reservation.checkOutDate);
+            const requestedCheckInDate = new Date(checkInDate);
+            const requestedCheckOutDate = new Date(checkOutDate);
+
+            return (
+                (requestedCheckInDate >= existingCheckInDate && requestedCheckInDate < existingCheckOutDate) ||
+                (requestedCheckOutDate > existingCheckInDate && requestedCheckOutDate <= existingCheckOutDate) ||
+                (requestedCheckInDate <= existingCheckInDate && requestedCheckOutDate >= existingCheckOutDate)
+            );
+        });
+        console.log(conflictingReservations);
+        if (conflictingReservations.length > 1) {
+            return res.status(400).json({ error: 'The room is not available for the requested dates' });
+        }
+        if(conflictingReservations.length == 1 && conflictingReservations[0]._id != reserve_id){
+            return res.status(400).json({ error: 'The room is not available for the requested dates' });
+        }
+        const result = await Room.updateOne({'reservations._id': reserve_id},
+          {$set: {'reservations.$.guest.name': updatedReservation.guest.name,
+                  'reservations.$.guest.phone': updatedReservation.guest.phone,
+                  'reservations.$.checkInDate': updatedReservation.checkInDate,
+                  'reservations.$.checkOutDate': updatedReservation.checkOutDate
+                }});
+        console.log(result);
+        return res.json({success: true, data: result});
+    } catch (error) {
+        next(error);
+    }
+}
+
+export async function getOneReservationForUser(req, res, next){
+    const { reserve_id } = req.params;
+    try {
+        const result = await Room.findOne({'reservations._id': reserve_id}, {'reservations.$': 1});
+        res.json({success: true, data: result.reservations[0]});
+    } catch (error) {
+        next(error);
+
+    }
+}
+
+export async function deleteResForUser(req, res, next){
+    const { reserve_id } = req.params;
+    try {
+        const result = await Room.updateOne({'reservations._id': reserve_id}, 
+        {$pull: {reservations: {_id: reserve_id}}});
+        res.json({success: true, data: result});
+    } catch (error) {
+        next(error);
+    }
+}
+
 export async function getAllReservationsForAUser(req, res, next) {
 
     try {
@@ -21,7 +86,6 @@ export async function getAllReservationsForAUser(req, res, next) {
             { $group: { _id: null, reservations: { $push: "$reservations" } } },
             { $project: { _id: 0, reservations: 1 } }
         ]);
-        console.log(result[0].reservations);
         res.json({ success: true, data: result[0].reservations});
     } catch (error) {
         next(error);
@@ -56,11 +120,12 @@ export async function addNewReservation(req, res, next) {
             return res.status(400).json({ error: 'The room is not available for the requested dates' });
         }
         room.reservations.push({
-            ...newreserve, hotel_name: room.hotel_name, room_type: room.type,
+            ...newreserve, room_id: room._id, hotel_name: room.hotel_name, room_type: room.type,
             user_id: req.token._id, user_name: req.token.name, user_email: req.token.email,
         });
-
-        room.available = 'no';
+        if(checkInDate === new Date()){
+            room.available = 'NO';
+        }
         await room.save();
         return res.json({ success: true, data: room.reservations[room.reservations.length - 1] });
     } catch (error) {
@@ -117,18 +182,34 @@ async function updateAvailableRooms() {
     try {
         let rooms = await Room.find({});
         for (let room of rooms) {
+            let isOccupied = false;
             let reservations = room.reservations;
-            const now = new Date();
-            for (let reservation of reservations) {
-                if (reservation.checkOutDate <= now) {
-                    room.available = "yes";
-                }
+            if(reservations.length === 0){
+                room.available = 'YES';
+                await room.save();
+                break;
             }
-            await room.save();
+            else{
+                const now = new Date();
+                
+                for (let reservation of reservations) {
+                   
+                    if((reservation.checkInDate <= now) && (reservation.checkOutDate > now)){
+                        isOccupied = true;
+                    }
+                    
+                }
+                const isOccupiedStatus = isOccupied ? 'NO' : 'YES';
+                if(isOccupiedStatus !== room.available){
+                    room.available = isOccupiedStatus;
+                    await room.save();
+                }
+                
+            }
         }
     } catch (error) {
         console.log(error);
     }
 }
 
-setInterval(updateAvailableRooms, 5000);
+setInterval(updateAvailableRooms, 1000);
