@@ -34,7 +34,6 @@ export async function updateReservationForUser(req, res, next){
                 (requestedCheckInDate <= existingCheckInDate && requestedCheckOutDate >= existingCheckOutDate)
             );
         });
-        console.log(conflictingReservations);
         if (conflictingReservations.length > 1) {
             return res.status(400).json({ error: 'The room is not available for the requested dates' });
         }
@@ -47,7 +46,6 @@ export async function updateReservationForUser(req, res, next){
                   'reservations.$.checkInDate': updatedReservation.checkInDate,
                   'reservations.$.checkOutDate': updatedReservation.checkOutDate
                 }});
-        console.log(result);
         return res.json({success: true, data: result});
     } catch (error) {
         next(error);
@@ -57,11 +55,22 @@ export async function updateReservationForUser(req, res, next){
 export async function getOneReservationForUser(req, res, next){
     const { reserve_id } = req.params;
     try {
-        const result = await Room.findOne({'reservations._id': reserve_id, 'reservations.user_id': req.token._id }, {'reservations.$': 1});
+        const result = await Room.findOne({'reservations._id': reserve_id}, {'reservations.$': 1});
         res.json({success: true, data: result.reservations[0]});
     } catch (error) {
         next(error);
 
+    }
+}
+
+export async function deleteResForUser(req, res, next){
+    const { reserve_id } = req.params;
+    try {
+        const result = await Room.updateOne({'reservations._id': reserve_id}, 
+        {$pull: {reservations: {_id: reserve_id}}});
+        res.json({success: true, data: result});
+    } catch (error) {
+        next(error);
     }
 }
 
@@ -107,14 +116,17 @@ export async function addNewReservation(req, res, next) {
 
         if (conflictingReservations.length > 0) {
             return res.status(400).json({ error: 'The room is not available for the requested dates' });
+        } else{
+            room.reservations.push({
+                ...newreserve, room_id: room._id, hotel_name: room.hotel_name, room_type: room.type,
+                user_id: req.token._id, user_name: req.token.name, user_email: req.token.email,
+            });
+            if(newreserve.checkInDate === new Date()){
+                room.available = 'NO';
+            }
+            await room.save();
         }
-        room.reservations.push({
-            ...newreserve, room_id: room._id, hotel_name: room.hotel_name, room_type: room.type,
-            user_id: req.token._id, user_name: req.token.name, user_email: req.token.email,
-        });
 
-        room.available = 'no';
-        await room.save();
         return res.json({ success: true, data: room.reservations[room.reservations.length - 1] });
     } catch (error) {
         next(error);
@@ -170,23 +182,33 @@ async function updateAvailableRooms() {
     try {
         let rooms = await Room.find({});
         for (let room of rooms) {
+            let isOccupied = false;
             let reservations = room.reservations;
             if(reservations.length === 0){
-                room.available = "yes";
+                room.available = 'YES';
                 await room.save();
+                break;
             }
             else{
                 const now = new Date();
-            for (let reservation of reservations) {
-                if (reservation.checkOutDate <= now) {
-                    room.available = "yes";
+                
+                for (let reservation of reservations) {
+                   
+                    if((reservation.checkInDate <= now) && (reservation.checkOutDate > now)){
+                        isOccupied = true;
+                    }
+                    
                 }
-            }
-            await room.save();
+                const isOccupiedStatus = isOccupied ? 'NO' : 'YES';
+                if(isOccupiedStatus !== room.available){
+                    room.available = isOccupiedStatus;
+                    await room.save();
+                }
+                
             }
         }
     } catch (error) {
-        console.log(error);
+        next(error);
     }
 }
 

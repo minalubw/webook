@@ -1,6 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { IReservation, ReservationService } from '../reservation.service';
 import { Subscription } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-list-reservations',
@@ -12,6 +13,7 @@ export class ListReservationsComponent {
   reservationService = inject(ReservationService);
   reservations!: IReservation[];
   subscription!: Subscription;
+  router = inject(Router);
 
 
   ngOnInit(): void{
@@ -21,7 +23,7 @@ export class ListReservationsComponent {
       }
     })
   }
-
+  
   ngOnDestroy(): void{
     this.subscription.unsubscribe();
   }

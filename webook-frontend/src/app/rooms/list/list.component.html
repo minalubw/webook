@@ -1,4 +1,13 @@
+<br>
+
 <button (click)="goToReservations()"> My Reservations </button>
+<br>
+<br>
+<div *ngIf="state.role === 'admin'">
+    <a  [routerLink]="['/rooms/add']" > Add New Room </a>
+</div>
+<br>
+<br>
 <h2>Nearby rooms around you...</h2>
 <div *ngFor="let room of rooms">
     <img *ngIf="room.pictures.length"  src="http://localhost:3000/rooms/{{room._id}}/pictures/{{room.pictures[0].pictureName}}" width="250" alt="Room picture"><br>

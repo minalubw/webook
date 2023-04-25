@@ -1,5 +1,5 @@
 
-<form *ngIf="reservationLoaded && !updatedReservation._id; else showResForm" [formGroup]="reservationForm" (ngSubmit)="updateNow()">
+<form *ngIf="!updatedReservation.checkInDate; else showResForm" [formGroup]="reservationForm" (ngSubmit)="updateNow()">
     <label for="guest_name">Guest Name</label><br>
     <input type="text" id="guest_name" formControlName="guest_name"><br>
 
@@ -16,8 +16,8 @@
    
 </form>    
 <ng-template #showResForm>
-    <div *ngIf="updatedReservation._id" >
-        <h2>Here are your reservation details: </h2>
+    <div >
+        <h2>Here are your updated reservation details: </h2>
         <p>Guest name: {{updatedReservation.guest.name}}</p>
         <p>Guest phone: {{updatedReservation.guest.phone}}</p>
         <p>Check-In Date: {{updatedReservation.checkInDate}}</p>

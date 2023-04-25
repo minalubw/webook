@@ -71,7 +71,7 @@ export class UpdateReservationComponent implements OnInit{
       .subscribe(
         (res) => {
           if (res.success) {
-            this.updatedReservation = res.data;
+            this.updatedReservation = updated;
             this.notification.success('Reservation updated successfully!');
           }
         },
