@@ -7,9 +7,9 @@
     <button (click)="goToAddReservation()">Book Now</button><br>
 </div>
 <br>
-<input type="file" (change)="onFileSelection($event)"><br>
-<button (click)="addPicture()">Add Picture</button><br>
+<input *ngIf="state.role === 'admin'" type="file" (change)="onFileSelection($event)"><br>
+<button *ngIf="state.role === 'admin'" (click)="addPicture()">Add Picture</button><br>
 <br>
-<button (click)="gotToRoomUpdate()">Update Room</button> &nbsp; <button (click)="deleteRoom()">Remove Room</button><br>
+<button *ngIf="state.role === 'admin'" (click)="gotToRoomUpdate()">Update Room</button> &nbsp; <button *ngIf="state.role === 'admin'" (click)="deleteRoom()">Remove Room</button><br>
 <br>
 <a [routerLink]="['/rooms']"> Go Back To Room List</a>
