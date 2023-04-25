@@ -2484,3 +2484,7 @@
 ::1 - - [25/Apr/2023:18:35:06 +0000] "POST /rooms/nearby HTTP/1.1" 200 2152 "http://localhost:4200/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36"
 ::1 - - [25/Apr/2023:18:36:46 +0000] "POST /rooms/nearby HTTP/1.1" 200 2152 "http://localhost:4200/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36"
 ::1 - - [25/Apr/2023:18:36:59 +0000] "POST /rooms/nearby HTTP/1.1" 200 2152 "http://localhost:4200/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36"
+::1 - - [25/Apr/2023:18:39:27 +0000] "POST /users/login HTTP/1.1" 200 759 "http://localhost:4200/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36"
+::1 - - [25/Apr/2023:18:39:27 +0000] "POST /rooms/nearby HTTP/1.1" 200 1820 "http://localhost:4200/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36"
+::1 - - [25/Apr/2023:18:39:36 +0000] "GET /rooms/reservations HTTP/1.1" 500 72 "http://localhost:4200/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36"
+::1 - - [25/Apr/2023:18:39:37 +0000] "POST /rooms/nearby HTTP/1.1" 200 1820 "http://localhost:4200/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36"
