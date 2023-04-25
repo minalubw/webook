@@ -39,9 +39,7 @@ export class ListComponent implements OnInit{
     }
   }
 
-  goToReservations(){
-    this.router.navigate(['/reservations']);
-  }
+ 
 
 
 }

@@ -33,4 +33,7 @@ export class AppComponent {
     localStorage.clear();
     this.router.navigate(['', 'signin']);
   }
+  goToReservations(){
+    this.router.navigate(['/reservations']);
+  }
 }
