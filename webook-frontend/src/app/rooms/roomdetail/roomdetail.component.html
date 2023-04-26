@@ -1,10 +1,3 @@
-<!-- <div *ngIf="room">
-    <img *ngIf="room.pictures.length"  src="http://localhost:3000/rooms/{{room._id}}/pictures/{{room.pictures[0].pictureName}}" width="250" alt="Room picture"><br>
-    <p>Room type: {{room.type}}</p>
-    <p>{{room.hotel_name}}</p>
-    <p>Price for one day: {{room.price_per_day}}</p>
-    <p>Available for today: {{room.available}}</p>
-</div> -->
 
 <div
   *ngIf="room"
@@ -56,30 +49,22 @@
     type="file"
     (change)="onFileSelection($event)"
   /><br />
+  <br>
+
   <button
     class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
     *ngIf="state.role === 'admin'"
-    (click)="addPicture()"
-  >
-    Add Picture</button
-  ><br />
-  <br />
-  <button
-    class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+    (click)="addPicture()">
+    Add Picture</button>  &nbsp; &nbsp; &nbsp;
+  <button class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
     *ngIf="state.role === 'admin'"
-    (click)="gotToRoomUpdate()"
-  >
+    (click)="gotToRoomUpdate()">
     Update Room
   </button>
-  &nbsp;
+  &nbsp; &nbsp;
   <button class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" *ngIf="state.role === 'admin'" (click)="deleteRoom()">
     Remove Room</button
   ><br />
   <br />
-  <a
-    class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-    [routerLink]="['/rooms']"
-  >
-    Go Back To Room List</a
-  >
+
 </div>
