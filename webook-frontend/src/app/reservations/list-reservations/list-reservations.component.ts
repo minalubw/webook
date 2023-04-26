@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { IReservation, ReservationService } from '../reservation.service';
 import { Subscription } from 'rxjs';
 import { Router } from '@angular/router';
@@ -8,7 +8,7 @@ import { Router } from '@angular/router';
   templateUrl: './list-reservations.component.html',
   styleUrls: ['./list-reservations.component.css']
 })
-export class ListReservationsComponent {
+export class ListReservationsComponent implements OnInit, OnDestroy{
 
   reservationService = inject(ReservationService);
   reservations!: IReservation[];

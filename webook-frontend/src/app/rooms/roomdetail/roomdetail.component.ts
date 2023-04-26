@@ -31,7 +31,7 @@ export class RoomdetailComponent implements OnInit, OnDestroy {
   }
 
   deleteRoom(){
-    this.roomService.deleteRoom(this.roomId).subscribe((res)=>{
+    this.subscription = this.roomService.deleteRoom(this.roomId).subscribe((res)=>{
       if(res.success){
         this.notification.success('Room deleted successfully');
         this.router.navigate(['', 'rooms']);
@@ -48,7 +48,7 @@ export class RoomdetailComponent implements OnInit, OnDestroy {
     this.router.navigate(['rooms', 'update', this.room._id]);
   }
   addPicture(){  
-    this.roomService.addPictureToRoom(this.selectedImage, this.roomId).subscribe((res)=>{
+    this.subscription = this.roomService.addPictureToRoom(this.selectedImage, this.roomId).subscribe((res)=>{
       if(res.success){
         this.notification.success('Picture added successfully');
       }
