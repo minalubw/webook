@@ -34,7 +34,6 @@ export async function updateReservationForUser(req, res, next){
                 (requestedCheckInDate <= existingCheckInDate && requestedCheckOutDate >= existingCheckOutDate)
             );
         });
-        console.log(conflictingReservations);
         if (conflictingReservations.length > 1) {
             return res.status(400).json({ error: 'The room is not available for the requested dates' });
         }
@@ -47,7 +46,6 @@ export async function updateReservationForUser(req, res, next){
                   'reservations.$.checkInDate': updatedReservation.checkInDate,
                   'reservations.$.checkOutDate': updatedReservation.checkOutDate
                 }});
-        console.log(result);
         return res.json({success: true, data: result});
     } catch (error) {
         next(error);
@@ -118,15 +116,18 @@ export async function addNewReservation(req, res, next) {
 
         if (conflictingReservations.length > 0) {
             return res.status(400).json({ error: 'The room is not available for the requested dates' });
+        } else{
+
+            room.reservations.push({
+                ...newreserve, room_id: room._id, hotel_name: room.hotel_name, room_type: room.type,
+                user_id: req.token._id, user_name: req.token.name, user_email: req.token.email,
+            });
+            if(newreserve.checkInDate === new Date()){
+                room.available = 'NO';
+            }
+            await room.save();
         }
-        room.reservations.push({
-            ...newreserve, room_id: room._id, hotel_name: room.hotel_name, room_type: room.type,
-            user_id: req.token._id, user_name: req.token.name, user_email: req.token.email,
-        });
-        if(checkInDate === new Date()){
-            room.available = 'NO';
-        }
-        await room.save();
+
         return res.json({ success: true, data: room.reservations[room.reservations.length - 1] });
     } catch (error) {
         next(error);
@@ -208,7 +209,7 @@ async function updateAvailableRooms() {
             }
         }
     } catch (error) {
-        console.log(error);
+        next(error);
     }
 }
 

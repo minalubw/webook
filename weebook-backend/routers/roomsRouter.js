@@ -5,6 +5,7 @@ import reservationRouter from './reservationsRouter.js';
 import pictureRouter from './picturesRouter.js';
 import { deleteResForUser, getAllReservationsForAUser, getOneReservationForUser, updateReservationForUser } from '../controllers/reservationsController.js';
 import { checkAuth } from '../middlewares/authChecker.js';
+import { checkDate } from '../middlewares/checkDate.js';
 
 
 const router = Router();
@@ -15,7 +16,7 @@ router.post('/nearby', checkAuth, getNearByRooms);
 router.post('/', checkAuth,checkRole, addNewRoom);
 router.put('/:room_id', checkAuth, checkRole, updateRoomById);
 router.delete('/:room_id', checkAuth, checkRole, deleteRoomById);
-router.put('/reservations/:reserve_id', checkAuth, updateReservationForUser);
+router.put('/reservations/:reserve_id', checkDate, checkAuth, updateReservationForUser);
 router.get('/reservations/:reserve_id', checkAuth, getOneReservationForUser);
 router.delete('/reservations/:reserve_id', checkAuth, deleteResForUser);
 
