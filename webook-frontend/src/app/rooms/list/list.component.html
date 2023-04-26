@@ -1,26 +1,10 @@
 
+<br>
+<br>
+<div class="text-center	">
+    <h1 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Nearby rooms around you...</h1>
 
-<!-- <button (click)="goToReservations()"> My Reservations </button>
-<br>
-<br>
-<div *ngIf="state.role === 'admin'">
-    <a  [routerLink]="['/rooms/add']" > Add New Room </a>
 </div>
-<br>
-<br>
-<h2>Nearby rooms around you...</h2>
-<div *ngFor="let room of rooms">
-    <img *ngIf="room.pictures.length"  src="http://localhost:3000/rooms/{{room._id}}/pictures/{{room.pictures[0].pictureName}}" width="250" alt="Room picture"><br>
-    <a [routerLink]="['/rooms', room._id]">{{ room.hotel_name }}</a>
-    <p>Type: {{ room.type }}</p>
-    <p>Price per day: {{ room.price_per_day }}</p>
-</div> -->
-<div *ngIf="state.role === 'admin'" class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-    <a [routerLink]="['/rooms/add']" class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-        Add New Room 
-    </a>
-</div>
-<h2>Nearby rooms around you...</h2>
 <div  *ngFor="let room of rooms" class="  md:space-y-6 sm:p-8 max-w-bg bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
     <a [routerLink]="['/rooms', room._id]">
         <img *ngIf="room.pictures.length"  src="http://localhost:3000/rooms/{{room._id}}/pictures/{{room.pictures[0].pictureName}}" width="300" alt="Room picture"><br>
