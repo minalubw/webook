@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { StateService } from 'app/state.service';
@@ -12,7 +12,7 @@ import { Subscription } from 'rxjs';
   templateUrl: './sign-up.component.html',
   styleUrls: ['./sign-up.component.css']
 })
-export class SignUpComponent {
+export class SignUpComponent implements OnDestroy{
   private userService = inject(UserService);
   private router = inject(Router);
   private notification = inject(ToastrService);

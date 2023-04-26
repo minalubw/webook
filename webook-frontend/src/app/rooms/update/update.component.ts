@@ -1,19 +1,21 @@
-import { Component, inject } from '@angular/core';
+import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { IRoom, RoomService, initial_room } from '../room.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { FormBuilder, Validators } from '@angular/forms';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-update',
   templateUrl: './update.component.html',
   styleUrls: ['./update.component.css']
 })
-export class UpdateComponent {
+export class UpdateComponent implements OnInit, OnDestroy{
   roomService = inject(RoomService);
   router = inject(Router);
   roomId!: string;
   activedRoute = inject(ActivatedRoute);
+  subscription!: Subscription;
 
   private notification = inject(ToastrService);
   updatedRoom = initial_room;
@@ -29,7 +31,7 @@ export class UpdateComponent {
 
   ngOnInit(): void {
     this.roomId = this.activedRoute.snapshot.params['room_id'];
-    this.roomService.getRoomById(this.roomId).subscribe(res=>{
+    this.subscription = this.roomService.getRoomById(this.roomId).subscribe(res=>{
       if(res.success){
         this.displayData(res.data);
       }
@@ -54,7 +56,7 @@ export class UpdateComponent {
       hotel_name: formValue.hotel_name,
       location: [formValue.longitude, formValue.latitude]
     }
-    this.roomService.updateRoom(this.roomId, newRoom).subscribe((res)=>{
+    this.subscription = this.roomService.updateRoom(this.roomId, newRoom).subscribe((res)=>{
       if(res.success){
         this.updatedRoom = newRoom;
         this.notification.success('Room Updated successfully!');
@@ -68,5 +70,7 @@ export class UpdateComponent {
   goBackToList(){
     this.router.navigate(['', 'rooms']);
   }
-
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
+   }
 }

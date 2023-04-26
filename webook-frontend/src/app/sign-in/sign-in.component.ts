@@ -1,4 +1,4 @@
-import { Component, OnDestroy, inject } from '@angular/core';
+import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { IPayload, IUser, UserService } from '../user.service';
 import { StateService } from '../state.service';
 import { Router } from '@angular/router';
@@ -30,9 +30,9 @@ export class SignInComponent implements OnDestroy {
       }
     })
   }
-
+  
   signin() {
-    this.userService.signin(this.mySignInForm.value as IUser).subscribe(
+    this.subscription = this.userService.signin(this.mySignInForm.value as IUser).subscribe(
       (response) => {
         if(response){
           this.notification.success('Successfully logged in.');

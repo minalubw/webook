@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, OnDestroy, inject } from '@angular/core';
 import { IState, StateService, initial_state } from './state.service';
 import { Subscription } from 'rxjs';
 import { Router } from '@angular/router';
@@ -8,7 +8,7 @@ import { Router } from '@angular/router';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
 })
-export class AppComponent {
+export class AppComponent implements OnDestroy{
   state!: IState;
   subscription!: Subscription;
   private stateService = inject(StateService);
@@ -36,4 +36,7 @@ export class AppComponent {
   goToReservations(){
     this.router.navigate(['/reservations']);
   }
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
+   }
 }
