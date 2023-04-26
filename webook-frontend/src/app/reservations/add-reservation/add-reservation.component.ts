@@ -1,18 +1,21 @@
-import { Component, inject } from '@angular/core';
+import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IReservation, ReservationService, initial_reservation } from '../reservation.service';
 import { ToastrService } from 'ngx-toastr';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-add-reservation',
   templateUrl: './add-reservation.component.html',
   styleUrls: ['./add-reservation.component.css'],
 })
-export class AddReservationComponent {
+export class AddReservationComponent implements OnInit, OnDestroy{
+  
   reservationService = inject(ReservationService);
   activedRouter = inject(ActivatedRoute);
   router = inject(Router);
+  subscription!: Subscription;
   roomId!: string;
   private notification = inject(ToastrService);
   createdReservation = initial_reservation
@@ -39,7 +42,7 @@ export class AddReservationComponent {
       checkInDate: formValue.checkInDate,
       checkOutDate: formValue.checkOutDate
     }
-    this.reservationService.addNewReservation(this.roomId, reservation).subscribe((res)=>{
+    this.subscription = this.reservationService.addNewReservation(this.roomId, reservation).subscribe((res)=>{
       if(res.success){
         this.createdReservation = res.data;
         this.notification.success('Room booked successfully!');
@@ -51,5 +54,8 @@ export class AddReservationComponent {
 
   goBackToList(){
     this.router.navigate(['', 'rooms']);
+  }
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 }

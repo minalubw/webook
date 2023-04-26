@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { IReservation, ReservationService, initial_reservation } from '../reservation.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
@@ -10,7 +10,7 @@ import { Subscription } from 'rxjs';
   templateUrl: './update-reservation.component.html',
   styleUrls: ['./update-reservation.component.css'],
 })
-export class UpdateReservationComponent implements OnInit{
+export class UpdateReservationComponent implements OnInit, OnDestroy{
   reservationService = inject(ReservationService);
   activedRoute = inject(ActivatedRoute);
   router = inject(Router);
@@ -83,5 +83,8 @@ export class UpdateReservationComponent implements OnInit{
 
   goBackToList() {
     this.router.navigate(['', 'reservations']);
+  }
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 }
