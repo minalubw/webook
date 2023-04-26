@@ -7,7 +7,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 import { AppComponent } from './app.component';
 import { SignUpComponent } from './sign-up/sign-up.component';
 import { SignInComponent } from './sign-in/sign-in.component';
-import { RoomsComponent } from './rooms/rooms.component';
 import { RouterModule } from '@angular/router';
 import { ReactiveFormsModule } from '@angular/forms';
 import { StateService } from './state.service';
@@ -27,7 +26,6 @@ function bootstrap(stateService: StateService) {
     AppComponent,
     SignUpComponent,
     SignInComponent,
-    RoomsComponent,
   ],
   imports: [
     BrowserModule,
