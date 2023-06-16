@@ -1,19 +1,21 @@
-import { Component, inject } from '@angular/core';
+import { Component, OnDestroy, inject } from '@angular/core';
 import { IRoom, RoomService, initial_room } from '../room.service';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { FormBuilder, Validators } from '@angular/forms';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-add',
   templateUrl: './add.component.html',
   styleUrls: ['./add.component.css']
 })
-export class AddComponent {
+export class AddComponent implements OnDestroy{
   roomService = inject(RoomService);
   router = inject(Router);
   private notification = inject(ToastrService);
   createdRoom = initial_room;
+  subscription!: Subscription;
 
   addRoomForm = inject(FormBuilder).nonNullable.group({
     type: ['', Validators.required],
@@ -24,9 +26,6 @@ export class AddComponent {
   });
 
 
-  ngOnInit(): void {
-  }
-
   addNow() {
     const formValue = this.addRoomForm.value;
     const room: any = {
@@ -35,7 +34,7 @@ export class AddComponent {
       hotel_name: formValue.hotel_name,
       location: [formValue.longitude, formValue.latitude]
     }
-    this.roomService.addNewRoom(room).subscribe((res)=>{
+    this.subscription = this.roomService.addNewRoom(room).subscribe((res)=>{
       if(res.success){
         this.createdRoom = res.data;
         this.notification.success('Room added successfully!');
@@ -48,5 +47,8 @@ export class AddComponent {
 
   goBackToList(){
     this.router.navigate(['', 'rooms']);
+  }
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 }

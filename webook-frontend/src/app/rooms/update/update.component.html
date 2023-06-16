@@ -4,7 +4,7 @@
         <div class="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
             <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
                 <h1 class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
-                    Add Room
+                    Update Room
                 </h1> 
                 <form *ngIf="!updatedRoom.type; else showUpdatedInfo" [formGroup]="updatedRoomForm" (ngSubmit)="updateNow()" class="space-y-4 md:space-y-6">
                     <div>
@@ -36,7 +36,7 @@
   
                 <ng-template #showUpdatedInfo>
                     <div >
-                        <h2 class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Here are your new room details: </h2>
+                        <h2 class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Here are your updared room details: </h2>
                         <p class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Room type: {{updatedRoom.type}}</p>
                         <p class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Hotel name: {{updatedRoom.hotel_name}}</p>
                         <p class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Price per day: {{updatedRoom.price_per_day}}</p>
